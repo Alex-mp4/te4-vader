@@ -1,6 +1,8 @@
+import './Spinner.css'
+
 function Spinner() {
     return (
-        <h2>Loading...</h2>
+        <h2 className='spinner'>Loading...</h2>
     )
 }
 
