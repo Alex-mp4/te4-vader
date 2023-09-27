@@ -22,19 +22,33 @@ function App() {
       console.log('before fetch: ' + lat, long)
 
       if (lat.length === 0 || long.length === 0) {
+        console.log("Could not get data")
         return
       }
+      else if (lat == localStorage.getItem("lat") && long == localStorage.getItem("long") && new Date().getTime() < JSON.parse(localStorage.getItem("weatherDataLocal")).newDataIn) {
+        console.log("Getting data from Local Storage")
+        setWeatherData(JSON.parse(localStorage.getItem("weatherDataLocal")).value)
+      }
+      else {
+        console.log("Getting data from API")
+        const baseUrl = 'https://api.openweathermap.org/data/2.5/weather?'
+        await fetch(`${baseUrl}lat=${lat}&lon=${long}&appid=${import.meta.env.VITE_API_KEY}`)
 
-      const baseUrl = 'https://api.openweathermap.org/data/2.5/weather?'
-      await fetch(`${baseUrl}lat=${lat}&lon=${long}&appid=${import.meta.env.VITE_API_KEY}`)
-
-        .then(res => res.json())
-        .then(result => {
-          console.log(result)
-          setWeatherData(result)
-        }).catch(err => {
-          console.log(err)
-        })
+          .then(res => res.json())
+          .then(result => {
+            console.log(result)
+            setWeatherData(result)
+            const weatherDataLocal = {
+              value: result,
+              newDataIn: new Date().getTime() + 300000
+            }
+            localStorage.setItem("lat", lat);
+            localStorage.setItem("long", long);
+            localStorage.setItem("weatherDataLocal", JSON.stringify(weatherDataLocal));
+          }).catch(err => {
+            console.log(err)
+          })
+      }
     }
     fetchWeather()
   }, [lat, long])
