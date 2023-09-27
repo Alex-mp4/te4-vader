@@ -40,9 +40,18 @@ body {
   background-color: var(--primary-color);
   color: var(--secondary-color);
   font-family: 'Martian Mono', monospace;
+  text-align: center;
 }
 
 h1 {
-  font-weight: 700;
+  font-weight: 900;
   font-size: var(--step-5);
 }
+
+h2 {}
+
+p {
+  margin-bottom: 6rem;
+}
+
+.container {}

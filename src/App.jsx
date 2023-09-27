@@ -7,6 +7,10 @@ function App() {
   const [long, setLong] = useState([])
   const [weatherData, setWeatherData] = useState([])
 
+  const quotes = [{ "id": 1, "text": "Luke Skywatcher" }, { "id": 2, "text": "Mother Nature strikes back" }, { "id": 3, "text": "Weather report more accurate than a stormtrooper" }, { "id": 4, "text": "Now comes our forcecast" }]
+  let randomQuoteInt = Math.floor(Math.random() * quotes.length)
+  let shownQuote = quotes[randomQuoteInt].text
+
   //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 
   useEffect(() => {
@@ -38,15 +42,18 @@ function App() {
   return (
     <>
       <h1>Darth Väder</h1>
-      {weatherData.main ? (
-        <>
-          <h2>City: {weatherData.name}</h2>
-          <h2>Temperature: {(weatherData.main.temp - 273.15).toFixed(2)} C</h2>
-          <h2>Weather: {weatherData.weather[0].main}</h2>
-        </>
-      ) : (
-        <Spinner />
-      )}
+      <p>{shownQuote}</p>
+      <div className='container'>
+        {weatherData.main ? (
+          <>
+            <h2>City: {weatherData.name}</h2>
+            <h2>Temperature: {(weatherData.main.temp - 273.15).toFixed(2)} C</h2>
+            <h2>Weather: {weatherData.weather[0].main}</h2>
+          </>
+        ) : (
+          <Spinner />
+        )}
+      </div>
     </>
   )
 }
